@@ -41,7 +41,8 @@ function RegForm() {
       );
       console.log(response);
 
-      response.data.success && toast.success(response.data.message);
+      response.data.success &&
+        toast.success(response.data.message + "Please login to continue.");
       setLoading(false);
 
       setEmail("");

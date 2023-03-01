@@ -65,7 +65,12 @@ const authController = {
       res.status(200).json({
         success: true,
         message: "Login successfull.",
-        data: { name: existUser.name, email: existUser.email },
+        user: {
+          name: existUser.name,
+          email: existUser.email,
+          phone: existUser.phone,
+          address: existUser.address,
+        },
         token,
       });
     } catch (e) {

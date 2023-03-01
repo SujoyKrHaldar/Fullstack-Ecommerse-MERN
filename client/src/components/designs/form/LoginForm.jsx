@@ -1,6 +1,8 @@
 import { BiLoaderAlt } from "react-icons/bi";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { AiOutlineEye, AiFillEye } from "react-icons/ai";
+import { useAuthContext } from "../../context/authProvider";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import axios from "axios";
@@ -15,6 +17,10 @@ function LoginForm() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+
+  const [auth, setAuth] = useAuthContext();
 
   const handelSubmit = async (e) => {
     e.preventDefault();
@@ -33,17 +39,23 @@ function LoginForm() {
         `${import.meta.env.VITE_SERVER_API}/auth/login`,
         { email, password }
       );
-      console.log(response);
+      console.log(response.data);
 
-      response.data.success &&
-        toast.success(response.data.message + "Please login to continue.");
+      setAuth({
+        ...auth,
+        user: response.data.user,
+        token: response.data.token,
+      });
+
+      localStorage.setItem("auth", JSON.stringify(response.data));
+      response.data.success && toast.success(response.data.message);
       setLoading(false);
 
       setEmail("");
       setPassword("");
-    } catch (e) {
-      console.log(e);
 
+      navigate("/");
+    } catch (e) {
       toast.error(e.response.data.message);
       setLoading(false);
     }

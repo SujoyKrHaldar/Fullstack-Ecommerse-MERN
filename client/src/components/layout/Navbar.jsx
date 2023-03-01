@@ -1,7 +1,9 @@
 import { useState } from "react";
 import Avatar from "react-avatar";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useAuthContext } from "../context/authProvider";
 
 const navlinks = [
   {
@@ -17,12 +19,15 @@ const navlinks = [
 function Navbar() {
   const [userMenu, setuserMenu] = useState(false);
 
-  const currentUser = {
-    active: false,
-    id: "123",
-    username: "Sujoykrhaldar",
-    isSeller: true,
-    profilePic: false,
+  const [auth, setAuth] = useAuthContext();
+
+  const navigate = useNavigate();
+
+  const handelLogout = () => {
+    setAuth({ ...auth, user: null, token: "" });
+    localStorage.removeItem("auth");
+    toast.success("Logout successful");
+    navigate("/login");
   };
 
   return (
@@ -50,7 +55,7 @@ function Navbar() {
             Cart
           </NavLink>
 
-          {currentUser.active && (
+          {auth.user && (
             <NavLink
               to="/wishlist"
               className="uppercase font-semibold text-sm text-black"
@@ -59,15 +64,25 @@ function Navbar() {
             </NavLink>
           )}
 
-          {currentUser.active ? (
+          {auth.user ? (
             <nav>
-              <div onClick={() => setuserMenu(!userMenu)}>
-                <Avatar color="black" name={currentUser.username} size="40px" />
+              <div
+                onClick={() => setuserMenu(!userMenu)}
+                className="peer cursor-pointer"
+              >
+                <Avatar color="black" name={auth.user.name} size="40px" />
               </div>
               {userMenu && (
                 <div
-                  className="absolute h-fit top-[60px] right-0 
-            flex flex-col gap-3 justify-center p-6 pr-16 bg-black text-white"
+                  // className="absolute h-fit top-[25px] right-0
+                  // pointer-events-none peer-hover:pointer-events-all hover:pointer-events-all
+                  // peer-hover:opacity-100 opacity-0 hover:opacity-100
+                  // flex flex-col gap-3 justify-center
+                  // p-6 pr-16 bg-gray-800 text-white"
+
+                  className="absolute h-fit top-[68px] right-0 
+                flex flex-col gap-3 justify-center 
+                p-6 pr-16 bg-black text-white border border-gray-500"
                 >
                   <Link
                     to="/dashboard"
@@ -81,7 +96,10 @@ function Navbar() {
                   >
                     Orders
                   </Link>
-                  <p className="text-sm uppercase text-gray-400 hover:text-white">
+                  <p
+                    onClick={handelLogout}
+                    className="text-sm uppercase text-gray-400 hover:text-white cursor-pointer"
+                  >
                     Logout
                   </p>
                 </div>
