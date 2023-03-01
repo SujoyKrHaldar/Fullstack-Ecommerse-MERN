@@ -1,0 +1,26 @@
+{
+  "name": "mern-ecommerse",
+  "version": "1.0.0",
+  "description": "Fullstack mern ecommerse project",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "client":"npm run dev --prefix ./client",
+    "test": "concurrently \"npm run dev\" \"npm run client\""
+  },
+  "author": "sujoy",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "colors": "^1.4.0",
+    "concurrently": "^7.6.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.0.0",
+    "morgan": "^1.10.0"
+  }
+}

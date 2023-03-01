@@ -1,0 +1,95 @@
+@import url("https://fonts.googleapis.com/css2?family=Signika:wght@300;400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  position: relative;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  transition: 0.3s ease;
+}
+
+div#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+html,
+body {
+  scroll-behavior: smooth;
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: "Signika", sans-serif;
+  overflow-y: overlay;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  font-size: 100%;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f100;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #1f1f1f;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #0e0e0e;
+}
+
+a {
+  color: inherit;
+  font-size: 1rem;
+  text-decoration: none;
+  display: inline-block;
+}
+
+h1 {
+  font-size: 5rem;
+  line-height: 5rem;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+h2 {
+  font-size: 3.5rem;
+  line-height: 3.5rem;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+p {
+  font-size: 1.2rem;
+}
+
+.tag {
+  letter-spacing: 0.3rem;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.active {
+  color: rgb(236, 105, 6);
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
