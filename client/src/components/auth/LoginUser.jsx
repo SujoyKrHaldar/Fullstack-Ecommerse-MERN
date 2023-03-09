@@ -10,9 +10,9 @@ function LoginUser() {
         />
       </div>
       <div className="w-full h-full container flex items-center">
-        <div className="w-full max-w-[450px]">
+        <div className="flex-1 max-w-[450px]">
           <p className="tag mb-3">Justshop.com</p>
-          <h2 className="mb-2">Login</h2>
+          <h2 className="mb-2">Welcome</h2>
           <div className="mt-6">
             <LoginForm />
           </div>

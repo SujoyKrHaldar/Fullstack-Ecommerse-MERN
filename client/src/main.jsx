@@ -11,21 +11,21 @@ import { AuthProvider } from "./components/context/authProvider";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <AuthProvider>
     <BrowserRouter>
-      <React.StrictMode>
-        <ToastContainer
-          position="bottom-right"
-          autoClose={5000}
-          hideProgressBar
-          newestOnTop
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable={false}
-          pauseOnHover
-          theme="light"
-        />
-        <App />
-      </React.StrictMode>
+      {/* <React.StrictMode> */}
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable={false}
+        pauseOnHover
+        theme="light"
+      />
+      <App />
+      {/* </React.StrictMode> */}
     </BrowserRouter>
   </AuthProvider>
 );

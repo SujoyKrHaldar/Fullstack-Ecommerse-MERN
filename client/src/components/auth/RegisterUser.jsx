@@ -10,9 +10,9 @@ function RegisterUser() {
         />
       </div>
       <div className="w-full h-full container flex items-center">
-        <div className="max-w-[700px] ">
+        <div className="flex-1 max-w-[500px] ">
           <p className="tag mb-3">Justshop.com</p>
-          <h2 className=" mb-2">Create account</h2>
+          <h2 className="mb-2">Create account</h2>
           <p className="max-w-md">Create account and lets get started.</p>
           <div className="mt-6">
             <RegForm />

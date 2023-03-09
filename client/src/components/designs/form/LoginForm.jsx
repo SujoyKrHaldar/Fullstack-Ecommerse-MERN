@@ -4,8 +4,11 @@ import { AiOutlineEye, AiFillEye } from "react-icons/ai";
 import { useAuthContext } from "../../context/authProvider";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { GoAlert } from "react-icons/go";
+import { TiTick } from "react-icons/ti";
 import { useState } from "react";
 import axios from "axios";
+import { emailValidation, passwordValidation } from "./Validation";
 
 function LoginForm() {
   const [loading, setLoading] = useState(false);
@@ -15,23 +18,23 @@ function LoginForm() {
     type === "password" ? setType("text") : setType("password");
   };
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
+  const [auth, setAuth] = useAuthContext();
   const navigate = useNavigate();
 
-  const [auth, setAuth] = useAuthContext();
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState(null);
+
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState(null);
 
   const handelSubmit = async (e) => {
     e.preventDefault();
 
-    if (!email || !password) return toast.error("Empty fields");
-
-    if (!email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/))
-      return toast.error("Invalid email");
-
-    if (password.length < 5)
-      return toast.error("Password must be 5 or more characters");
+    if (!email || !password) {
+      setEmailError("Field can't be empty.");
+      setPasswordError("Field can't be empty.");
+      return;
+    }
 
     try {
       setLoading(true);
@@ -64,30 +67,66 @@ function LoginForm() {
     <form className="w-full" onSubmit={handelSubmit}>
       <div className="space-y-2 mb-4">
         <p className="uppercase text-sm font-semibold">Email</p>
-        <input
-          type="text"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="px-5 py-4 md:py-3 block w-full text-lg placeholder-black
-          bg-white outline-none"
-        />
+        <div>
+          <input
+            onInput={(e) => emailValidation(e, setEmailError)}
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className={`px-5 py-4 md:py-3 block w-full text-lg placeholder-black 
+            outline-none border font-thin
+           ${emailError ? "bg-red-50 border-red-500" : "bg-white"}
+           ${!emailError && email && "border-green-600 bg-green-100"}
+          `}
+          />
+          {emailError && (
+            <div className="text-xl absolute bottom-[17px] right-[20px] text-red-400">
+              <GoAlert />
+            </div>
+          )}
+          {!emailError && email && (
+            <div
+              className="text-xl rounded-full absolute bottom-[17px] 
+            right-[20px] text-green-500"
+            >
+              <TiTick />
+            </div>
+          )}
+        </div>
+
+        {emailError && (
+          <p className="text-red-600 text-sm font-thin">{emailError}</p>
+        )}
       </div>
 
-      <div className="space-y-2 mb-8">
+      <div className="space-y-2 mb-4">
         <p className="uppercase text-sm font-semibold">Password</p>
-        <input
-          type={type}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="px-5 py-4 md:py-3 block w-full text-lg placeholder-black
-          bg-white outline-none"
-        />
-        <div
-          onClick={handelPassword}
-          className="text-xl absolute bottom-[15px] right-[20px] text-gray-500"
-        >
-          {type === "password" ? <AiOutlineEye /> : <AiFillEye />}
+        <div>
+          <input
+            onInput={(e) => passwordValidation(e, setPasswordError)}
+            type={type}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className={`px-5 py-4 md:py-3 block w-full text-lg placeholder-black 
+            outline-none border font-thin
+            ${passwordError ? "bg-red-50 border-red-500" : "bg-white"}
+            ${!passwordError && password && "border-green-600 bg-green-100"}
+           `}
+          />
+          <div
+            onClick={handelPassword}
+            className={`text-xl absolute bottom-[16px] right-[20px]  cursor-pointer
+            ${passwordError ? "text-red-500" : "text-gray-500"}
+            ${!passwordError && password && "text-green-500"}
+            `}
+          >
+            {type === "password" ? <AiOutlineEye /> : <AiFillEye />}
+          </div>
         </div>
+
+        {passwordError && (
+          <p className="text-red-600 text-sm font-thin">{passwordError}</p>
+        )}
       </div>
 
       <button
@@ -116,6 +155,16 @@ function LoginForm() {
           )}
         </div>
       </button>
+
+      <p className="font-thin mt-3 text-base">
+        Don't have an account ?{" "}
+        <span
+          onClick={() => navigate("/join")}
+          className="font-medium cursor-pointer"
+        >
+          Create account
+        </span>
+      </p>
     </form>
   );
 }

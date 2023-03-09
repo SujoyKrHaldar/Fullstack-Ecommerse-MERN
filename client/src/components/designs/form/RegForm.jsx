@@ -4,10 +4,13 @@ import { AiOutlineEye, AiFillEye } from "react-icons/ai";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function RegForm() {
   const [loading, setLoading] = useState(false);
   const [type, setType] = useState("password");
+
+  const navigate = useNavigate();
 
   const handelPassword = () => {
     type === "password" ? setType("text") : setType("password");
@@ -144,6 +147,16 @@ function RegForm() {
           )}
         </div>
       </button>
+
+      <p className="font-thin mt-3 text-base">
+        Already have an account ?{" "}
+        <span
+          onClick={() => navigate("/login")}
+          className="font-medium cursor-pointer"
+        >
+          Login
+        </span>
+      </p>
     </form>
   );
 }
