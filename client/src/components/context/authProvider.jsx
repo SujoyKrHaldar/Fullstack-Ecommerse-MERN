@@ -2,6 +2,8 @@ import { useContext, createContext, useEffect, useState } from "react";
 
 const AuthContext = createContext();
 
+const useAuthContext = () => useContext(AuthContext);
+
 const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({
     user: null,
@@ -26,7 +28,5 @@ const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
-
-const useAuthContext = () => useContext(AuthContext);
 
 export { AuthProvider, useAuthContext };

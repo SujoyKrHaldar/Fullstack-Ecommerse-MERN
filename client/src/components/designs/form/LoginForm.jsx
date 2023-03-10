@@ -3,12 +3,12 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import { AiOutlineEye, AiFillEye } from "react-icons/ai";
 import { useAuthContext } from "../../context/authProvider";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { GoAlert } from "react-icons/go";
 import { TiTick } from "react-icons/ti";
 import { useState } from "react";
 import axios from "axios";
 import { emailValidation, passwordValidation } from "./Validation";
+import { useNotifyContext } from "../../context/notificationProvider";
 
 function LoginForm() {
   const [loading, setLoading] = useState(false);
@@ -19,6 +19,8 @@ function LoginForm() {
   };
 
   const [auth, setAuth] = useAuthContext();
+  const [status, setStatus] = useNotifyContext();
+
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -51,7 +53,15 @@ function LoginForm() {
       });
 
       localStorage.setItem("auth", JSON.stringify(response.data));
-      response.data.success && toast.success(response.data.message);
+
+      if (response.data.success) {
+        setStatus({
+          ...status,
+          message: response.data.message,
+          success: true,
+          active: true,
+        });
+      }
       setLoading(false);
 
       setEmail("");
@@ -59,7 +69,12 @@ function LoginForm() {
 
       navigate("/");
     } catch (e) {
-      toast.error(e.response.data.message);
+      setStatus({
+        ...status,
+        message: e.response.data.message,
+        success: false,
+        active: true,
+      });
       setLoading(false);
     }
   };
